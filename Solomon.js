@@ -1,4 +1,4 @@
-// V0.0.5 pre-a
+// a1.1.0
 // SOLOMON.JS was created for internal use with the goal of a lightweight personal library.
 let gen = (input) => {
     let el = document.createElement(input);

@@ -1,6 +1,17 @@
 # SolomonJS
-A generic javascript library for internal use currently focusing on dom manipulation.
+### A DOM manipulation library focused on quick but powerful page generation.
 
+<img src="solomon.png">
+
+## Setup
+1. Download your desired version of SolomonJS.
+2. Put the .js file in your project folder or on the server you wish to use as a cdn.
+3. Add `<script src="[wherever you put it]">` at the top of your html `<body>`
+4. Add id="root" to the root of your html `<body>`
+5. Done.
+Once initial setup is completed. Visit [the wiki](https://github.com/DavidMcKissick/SolomonJS/wiki)
+to get acquainted with Solomons capabilities. Happy coding!  
+  
 ## Who what and why?
 Solomon is mostly made for personal projects, however as the project has grown, a few friends and colleagues have shown
 interest. So I've ultimately decided to make it 100% public including the dev branch. 

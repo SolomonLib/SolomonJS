@@ -1,5 +1,6 @@
-// a1.1.0
+// a1.0.1
 // SOLOMON.JS was created for internal use with the goal of a lightweight personal library.
+// Generics
 let gen = (input) => {
     let el = document.createElement(input);
     return el;
@@ -28,6 +29,9 @@ let $g = (target, type, arg, id, cname, alt) => {
     if (type === "p" || "h1" || "h2" || "h3" || "h4" || "h5") {
         newEl.textContent = arg;
     };
+    if (type === "button") {
+        newEl.onclick = alt;
+    };
     if (id) {
         newEl.id = id;
     };
@@ -44,6 +48,8 @@ let $g = (target, type, arg, id, cname, alt) => {
 // $g(target, typeOf, value, id, class, alt)
 // alt in links is instead the link target than an alt text.
 
+
+//Generic DOM node generators
 let $img = (target,src,alt,cname,id) => {
     $g(target,"img",src,id,cname, alt);
 };
@@ -76,9 +82,37 @@ let $a = (t, c, ln, cn, id) => {
     $g(t, "a", c, id, cn, ln);
 };
 
+let $b = (t,c,oc,cn,id) => {
+    $g(t, "button", c, id, cn, oc);
+}
+
+//Generic bulk generators
 let $header = () => {
     $d(body,"","header");
     $d(pullID('header'), "", "logoHold");
     $d(pullID('header'), "", "navHold");
     $nav(pullID('navHold'), "", "headNav");
 };
+
+let $foot = (content,nav,pos) => {
+    function navDiv(){
+        return $d(pullID('footer'), "", "footNavContainer"), $nav(pullID('footNavContainer', "", "footNav")); 
+    };
+    function noticeDiv(){
+        return $d(pullID('footer'), "", "noticeDiv"), $p(pullID('noticeDiv'), content, "", "footerNotice");
+    };
+    $d(body,"","footer");
+    if(nav === true){
+        if(pos === "l"){
+            navDiv();
+            noticeDiv();
+        } else if(pos === "r"){
+            noticeDiv();
+            navDiv();
+        } else {$h(1,body,"Footer improperly configured, see console");console.log('Err: Position parameter not set')}
+    } else {
+        $p(pullID('footer'), content, "", "footerNotice");
+    }
+}
+// Foot generation cheatsheet: IDs[footNavContainer, footNav, footerNotice]
+

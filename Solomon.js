@@ -1,10 +1,18 @@
-// V0.0.3 pre-a
+// V0.0.5 pre-a
 // SOLOMON.JS was created for internal use with the goal of a lightweight personal library.
 let gen = (input) => {
     let el = document.createElement(input);
     return el;
 }
-let body = document.getElementById('root');
+let pullID = (target) => {
+    let tar = document.getElementById(target)
+    return tar;
+}
+let pullCN = (target) => {
+    let tar = document.getElementsByClassName(target);
+    return tar;
+}
+let body = pullID('root');
 //Grabs the root for future use
 
 //Simple enough generic element generator to make generic addins universal
@@ -68,3 +76,9 @@ let $a = (t, c, ln, cn, id) => {
     $g(t, "a", c, id, cn, ln);
 }
 
+let $header = () => {
+    $d(body,"","header");
+    $d(pullID('header'), "", "logoHold");
+    $d(pullID('header'), "", "navHold");
+    $nav(pullID('navHold'), "", "headNav");
+}

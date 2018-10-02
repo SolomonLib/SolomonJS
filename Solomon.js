@@ -1,4 +1,4 @@
-// a1.0.1
+// a1.0.2
 // SOLOMON.JS was created for internal use with the goal of a lightweight personal library.
 // Generics
 let gen = (input) => {
@@ -17,8 +17,30 @@ let body = pullID('root');
 //Grabs the root for future use
 
 //Simple enough generic element generator to make generic addins universal
-let $g = (target, type, arg, id, cname, alt) => {
+let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
     let newEl = gen(type);
+    if (type === "form") {
+        if(s1 !== undefined) {
+            newEl.action = s1;
+        };  
+        if(s2 !== undefined) {
+            newEl.method = s2;
+        };   
+        if(s3 !== undefined) {
+            newEl.method = s3;
+        };
+    };
+    if (type === "input") {
+        if(s1 !== undefined) {
+            newEl.type=s1;
+        };
+        if(s2 !== undefined){
+            newEl.name=s2;
+        };
+    };
+    if (type === "script") {
+        newEl.src = alt;
+    };
     if (type === "img") {
         newEl.src = arg;
     };
@@ -82,9 +104,41 @@ let $a = (t, c, ln, cn, id) => {
     $g(t, "a", c, id, cn, ln);
 };
 
+let $sel = (t, cn, id) => {
+    $g(t, "select", "", id, cn);
+}
+
+let $opt = (t, c, cn, id) => {
+    $g(t, "option", c, id, cn);
+}
+
+let $l = (type,t,c,cn,id) => {
+    if(type === "ul" || type === "ol"){
+        $g(t,type,c,id,cn);
+    } else {
+        $h(1, body, "$l error: Type is improperly configured.");
+    }
+}
+
+let $li = (t,c,cn,id) => {
+    $g(t,"li",c,id,cn);    
+}
+
+let $script = (t,c,cn,id,src) => {
+    $g(t,"script",c,id,cn,src);
+} // src and content are technically optional, however not using one is... perhaps a tad pointless.
+
+let $form = (t,cn,id,action,method,name) => {
+    $g(t,"form","",id,cn,"",action,method,name);
+}
+
+let $input = (t,c,cn,id,type,name) => {
+    $g(t,"input",c,id,cn,"",type,name);
+}
+
 let $b = (t,c,oc,cn,id) => {
     $g(t, "button", c, id, cn, oc);
-}
+};
 
 //Generic bulk generators
 let $header = () => {

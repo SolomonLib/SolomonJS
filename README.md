@@ -1,7 +1,7 @@
 # SolomonJS
 ### A DOM manipulation library focused on quick but powerful page generation.
 
-<img src="solomon.png">
+<img src="logo/solomon.png">
 
 ## Setup
 1. Download your desired version of SolomonJS.

@@ -1,5 +1,5 @@
 // a1.0.2
-// SOLOMON.JS was created for internal use with the goal of a lightweight personal library.
+
 // Generics
 let gen = (input) => {
     let el = document.createElement(input);
@@ -139,6 +139,7 @@ let $input = (t,c,cn,id,type,name) => {
 let $b = (t,c,oc,cn,id) => {
     $g(t, "button", c, id, cn, oc);
 };
+
 
 //Generic bulk generators
 let $header = () => {

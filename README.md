@@ -1,6 +1,6 @@
 # SolomonJS
 ### A DOM manipulation library focused on quick but powerful page generation.
-
+### NOTICE: SolomonJS2 is being considered. This major change would result in a large scale rewrite and a change in the direction of the library. SolomonJS2 (SJ2) will be a state managed DOM manipulation library aimed at simple and portable apps.
 <img src="logo/solomon.png">
 
 ## Setup

@@ -1,9 +1,7 @@
 # SolomonJS
 ### A DOM manipulation library focused on quick but powerful page generation.
-
-## SOLOMON      IS     BACK
-Solomon JS 2.0 coming soon!
-
+#### Solomon is back, baby.
+#### I've decided to continue work on solomon. It will be getting a total remastering for Solomon 2.0 featuring more advanced and streamlined features.
 <img src="logo/solomon.png">
 
 ## Setup

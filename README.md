@@ -1,9 +1,8 @@
 # SolomonJS
 ### A DOM manipulation library focused on quick but powerful page generation.
-### NOTICE: The SolomonJS project has been officially discontinued. The project was made extremely early in my programming career mostly as a learning experience. It's extremely crude and simple and ultimately just isn't worth the time as-is. In the future, if I'm looking for a challenge, I may bring back Solomon via a total rewrite. 
 
-I ultimately did work on SJS2 but after a few weeks I decided I've learned enough and the total rewrite was simply not worth the time. Many already existing frameworks and libraries provide similar functionality done much better and much faster in many cases. Like I said, one day I may bring back the project if I simply want a large project for challenge but at this time I would rather focus efforts on a more useful project.
-### EXTRA NOTICE: While I had planned to release the incomplete SJS2 code, my ssd died mid-push resulting in a large scale data loss. This incident was... beyond tedious, but it did teach me, again, that pushing often is... Very wise. 
+## SOLOMON      IS     BACK
+Solomon JS 2.0 coming soon!
 
 <img src="logo/solomon.png">
 

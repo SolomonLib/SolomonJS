@@ -3,6 +3,7 @@
 <img src="logo/solomon.png">
 
 ## Setup
+### Direct
 1. Download your desired version of SolomonJS.
 2. Put the .js file in your project folder or on the server you wish to use as a cdn.
 3. Add `<script src="[wherever you put it]">` at the top of your html `<body>`
@@ -10,7 +11,14 @@
 5. Done.
 Once initial setup is completed. Visit [the wiki](https://github.com/DavidMcKissick/SolomonJS/wiki)
 to get acquainted with Solomons capabilities. Happy coding!  
-  
+
+### CDN
+1. Add `<script src="https://cdn.jsdelivr.net/gh/JessiMcKissick/SolomonJS@master/solomon/Solomon.js"></script>` to your html file.
+2. add `id="root"` to your html `<body>` tag.
+3. Done.
+Once initial setup is completed. Visit [the wiki](https://github.com/DavidMcKissick/SolomonJS/wiki)
+to get acquainted with Solomons capabilities. Happy coding!  
+
 ## Who what and why?
 Solomon is mostly made for personal projects, however as the project has grown, a few friends and colleagues have shown
 interest. So I've ultimately decided to make it 100% public including the dev branch. 

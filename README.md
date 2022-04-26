@@ -13,7 +13,7 @@ Once initial setup is completed. Visit [the wiki](https://github.com/DavidMcKiss
 to get acquainted with Solomons capabilities. Happy coding!  
 
 ### CDN
-1. Add `<script src="https://cdn.jsdelivr.net/gh/JessiMcKissick/SolomonJS@master/solomon/Solomon.js"></script>` to your html file.
+1. Add `<script src="https://cdn.jsdelivr.net/gh/SolomonLib/SolomonJS@master/solomon/Solomon.js"></script>` to your html file.
 2. add `id="root"` to your html `<body>` tag.
 3. Done.
 Once initial setup is completed. Visit [the wiki](https://github.com/DavidMcKissick/SolomonJS/wiki)

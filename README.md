@@ -27,3 +27,5 @@ SolomonJS began as a simple dom manipulation library but has grown to a simple, 
 All contributions should follow my [Simple contribution style guide](https://github.com/DavidMcKissick/Simple-commit-style-guide),
 however due to this being a very small project, this is more a guideline than a law. If the project grows, more effort will
 be spent on style requirements.
+
+## NOTICE: Pre-minified SolomonJS releases will be discontinued until beta release

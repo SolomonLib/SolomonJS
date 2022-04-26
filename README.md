@@ -1,7 +1,5 @@
 # SolomonJS
-### A DOM manipulation library focused on quick but powerful page generation.
-#### Solomon is back, baby.
-#### I've decided to continue work on solomon. It will be getting a total remastering for Solomon 2.0 featuring more advanced and streamlined features.
+### A DOM manipulation library focused on allowing full javascript ux development with minimal html.
 <img src="logo/solomon.png">
 
 ## Setup
@@ -18,8 +16,12 @@ Solomon is mostly made for personal projects, however as the project has grown, 
 interest. So I've ultimately decided to make it 100% public including the dev branch. 
 
 ## What does it do?
-Solomon is primarily for DOM manipulation done quickly. However, as it evolves this may change. That said, the project
-will always have a strong focus on the DOM.
+SolomonJS began as a simple dom manipulation library but has grown to a simple, powerful dom-based ux system, allowing you to write your static web application in nearly pure javascript.
+
+### Features
+* Powerful DOM manipulation, simplified for faster development.
+* Built-in (optional) router for single page web applications.
+* Generics for use with custom code and other libraries.
 
 ## Contribution
 All contributions should follow my [Simple contribution style guide](https://github.com/DavidMcKissick/Simple-commit-style-guide),

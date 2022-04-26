@@ -13,6 +13,13 @@ let pullCN = (target) => {
     let tar = document.getElementsByClassName(target);
     return tar;
 };
+let val = (id, inpval) => {
+    if (inpval != undefined && inpval != '') {
+        pullID(id).value = inpval;
+    } else {
+        return pullID(id).value;
+    }
+}
 let body = pullID('root');
 //Grabs the root for future use
 
@@ -20,22 +27,25 @@ let body = pullID('root');
 let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
     let newEl = gen(type);
     if (type === "form") {
-        if(s1 !== undefined) {
+        if (s1 !== undefined) {
             newEl.action = s1;
-        };  
-        if(s2 !== undefined) {
+        };
+        if (s2 !== undefined) {
             newEl.method = s2;
-        };   
-        if(s3 !== undefined) {
+        };
+        if (s3 !== undefined) {
             newEl.method = s3;
         };
     };
     if (type === "input") {
-        if(s1 !== undefined) {
-            newEl.type=s1;
+        if (s1 !== undefined) {
+            newEl.type = s1;
         };
-        if(s2 !== undefined){
-            newEl.name=s2;
+        if (s2 !== undefined) {
+            newEl.name = s2;
+        };
+        if (s3 == 'true') {
+            newEl.disabled = true;
         };
     };
     if (type === "script") {
@@ -72,23 +82,23 @@ let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
 
 
 //Generic DOM node generators
-let $img = (target,src,alt,cname,id) => {
-    $g(target,"img",src,id,cname, alt);
+let $img = (target, src, alt, cname, id) => {
+    $g(target, "img", src, id, cname, alt);
 };
 
-let $p = (t,c,cn,id) => {
-    $g(t,"p",c,id,cn);
+let $p = (t, c, cn, id) => {
+    $g(t, "p", c, id, cn);
 };
 
-let $h = (n,t,c,cn,id) => {
-    $g(t, "h"+n, c, id, cn);
+let $h = (n, t, c, cn, id) => {
+    $g(t, "h" + n, c, id, cn);
 };
 
-let $d = (t,cn,id) => {
+let $d = (t, cn, id) => {
     $g(t, "div", "", id, cn);
 };
 
-let $hr = (t,cn,id) => {
+let $hr = (t, cn, id) => {
     $g(t, "hr", "", id, cn);
 };
 
@@ -96,10 +106,10 @@ let $nav = (t, cn, id) => {
     $g(t, "nav", "", id, cn);
 };
 
-let $na = (t,c,ln,cn,id) => {
+let $na = (t, c, ln, cn, id) => {
     $g(t, "a", c, id, cn, ln);
 };
- // NOTE: A and NA are functionally identical but kept for readability.
+// NOTE: A and NA are functionally identical but kept for readability.
 let $a = (t, c, ln, cn, id) => {
     $g(t, "a", c, id, cn, ln);
 };
@@ -112,62 +122,113 @@ let $opt = (t, c, cn, id) => {
     $g(t, "option", c, id, cn);
 }
 
-let $l = (type,t,c,cn,id) => {
-    if(type === "ul" || type === "ol"){
-        $g(t,type,c,id,cn);
+let $l = (type, t, c, cn, id) => {
+    if (type === "ul" || type === "ol") {
+        $g(t, type, c, id, cn);
     } else {
         $h(1, body, "$l error: Type is improperly configured.");
     }
 }
 
-let $li = (t,c,cn,id) => {
-    $g(t,"li",c,id,cn);    
+let $li = (t, c, cn, id) => {
+    $g(t, "li", c, id, cn);
 }
 
-let $script = (t,c,cn,id,src) => {
-    $g(t,"script",c,id,cn,src);
+let $script = (t, c, cn, id, src) => {
+    $g(t, "script", c, id, cn, src);
 } // src and content are technically optional, however not using one is... perhaps a tad pointless.
 
-let $form = (t,cn,id,action,method,name) => {
-    $g(t,"form","",id,cn,"",action,method,name);
+let $form = (t, cn, id, action, method, name) => {
+    $g(t, "form", "", id, cn, "", action, method, name);
 }
 
-let $input = (t,c,cn,id,type,name) => {
-    $g(t,"input",c,id,cn,"",type,name);
+let $input = (t, c, cn, id, type, name, label, isEnabled) => {
+    $p(t, label, cn + 'label', id + 'label');
+    $g(t, "input", c, id, cn, "", type, name, isEnabled);
 }
 
-let $b = (t,c,oc,cn,id) => {
+let $b = (t, c, oc, cn, id) => {
     $g(t, "button", c, id, cn, oc);
 };
+
+let $area = (t, c, cn, id, label) => {
+    $p(t, label, cn + 'label', id + 'label');
+    $g(t, "textarea", c, id, cn, "");
+}
 
 
 //Generic bulk generators
 let $header = () => {
-    $d(body,"","header");
+    $d(body, "", "header");
     $d(pullID('header'), "", "logoHold");
     $d(pullID('header'), "", "navHold");
     $nav(pullID('navHold'), "", "headNav");
 };
 
-let $foot = (content,nav,pos) => {
-    function navDiv(){
-        return $d(pullID('footer'), "", "footNavContainer"), $nav(pullID('footNavContainer', "", "footNav")); 
+let $foot = (content, nav, pos) => {
+    function navDiv() {
+        return $d(pullID('footer'), "", "footNavContainer"), $nav(pullID('footNavContainer', "", "footNav"));
     };
-    function noticeDiv(){
+    function noticeDiv() {
         return $d(pullID('footer'), "", "noticeDiv"), $p(pullID('noticeDiv'), content, "", "footerNotice");
     };
-    $d(body,"","footer");
-    if(nav === true){
-        if(pos === "l"){
+    $d(body, "", "footer");
+    if (nav === true) {
+        if (pos === "l") {
             navDiv();
             noticeDiv();
-        } else if(pos === "r"){
+        } else if (pos === "r") {
             noticeDiv();
             navDiv();
-        } else {$h(1,body,"Footer improperly configured, see console");console.log('Err: Position parameter not set')}
+        } else { $h(1, body, "Footer improperly configured, see console"); console.log('Err: Position parameter not set') }
     } else {
         $p(pullID('footer'), content, "", "footerNotice");
     }
 }
 // Foot generation cheatsheet: IDs[footNavContainer, footNav, footerNotice]
 
+let routeTick = window.setInterval(routeCheck, 100);
+var currentPage = '#home()';
+var prevPage = '';
+
+//Takes the input data (a function name in string form), clears the page, runs the render function, then changes window location var
+function router(inp) {
+    nhash = window.location.hash;
+    prevPage = nhash.substring(1);
+    if (inp != undefined) {
+        clear();
+        eval(inp);
+        winLoc(inp);
+        currentPage = inp;
+    } else {
+
+    }
+}
+
+async function routeCheck() {
+    // If win loc != current page, router current page
+    if (window.location.hash.substring(1) != currentPage) {
+        currentPage = window.location.hash.substring(1);
+        router(currentPage);
+    }
+}
+
+
+function clear() {
+    if (pullID('content') != undefined) {
+        pullID('content').remove()
+        if (pullID('auxCounter') != undefined) {
+            pullID('auxCounter').remove(); //Fixes a weird bug
+        }
+    }
+}
+
+function page() {
+    $d(body, '', 'content');
+    let con = pullID('content');
+    return con;
+}
+
+function winLoc(inp) {
+    window.location.hash = inp;
+}

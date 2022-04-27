@@ -1,5 +1,10 @@
 // a2.0.0 
 
+
+
+// State
+let component = []
+
 // Generics
 let gen = (input) => {
     let el = document.createElement(input);
@@ -21,7 +26,25 @@ let val = (id, inpval) => {
     }
 }
 let body = pullID('root');
+let components = pullID('components');
+let pages = pullID('pages');
+let scripts = pullID('scripts');
 //Grabs the root for future use
+
+let add = (type, func, source) => {
+    if(type == 'script'){
+        $script(scripts,router(func), '', '', source);
+    } else if (type = 'component'){
+        $script(components,'', '', '', source);
+    } else {
+        console.log('add error: Type is improperly configured.');
+    }
+}
+
+let comment = (t, com) => {
+    let comment = com;
+    pullID(t).appendChild(comment); 
+}
 
 //Simple enough generic element generator to make generic addins universal
 let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
@@ -156,6 +179,23 @@ let $area = (t, c, cn, id, label) => {
     $g(t, "textarea", c, id, cn, "");
 }
 
+let $abbr = (t, c, cn, id) => {
+    $g(t, "abbr", c, id, cn);
+}
+
+let $acr = (t, c, cn, id) => {
+    $g(t, "acronym", c, id, cn);
+}
+
+let $adr = (t, c, cn, id) => {
+    $g(t, "address", c, id, cn);
+}
+
+let $article = (t, c, cn, id) => {
+    $g(t, "article", c, id, cn);
+}
+
+
 
 //Generic bulk generators
 let $header = () => {
@@ -232,3 +272,10 @@ function page() {
 function winLoc(inp) {
     window.location.hash = inp;
 }
+
+// First Load
+let firstLoad = () => {
+    $d(body, '', 'components');
+    $d(body, '', 'pages');
+    $d(body, '', 'scripts');
+}; firstLoad();

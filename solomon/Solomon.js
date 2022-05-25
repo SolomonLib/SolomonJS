@@ -1,5 +1,5 @@
-// a2.0.0 
 
+let solVersion = 'a2.0.1';
 
 
 // State
@@ -233,6 +233,10 @@ var prevPage = '';
 
 //Takes the input data (a function name in string form), clears the page, runs the render function, then changes window location var
 function router(inp) {
+    // A little hacky. Checks if header exists, if it does it will render, otherwise it moves on.
+    if(typeof header() != undefined){
+        header();
+    }
     nhash = window.location.hash;
     prevPage = nhash.substring(1);
     if (inp != undefined) {
@@ -243,6 +247,11 @@ function router(inp) {
     } else {
 
     }
+    // Same as header
+    if(typeof footer() != undefined){
+        footer();
+    }
+
 }
 
 async function routeCheck() {

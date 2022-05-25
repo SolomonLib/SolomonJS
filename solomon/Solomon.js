@@ -1,5 +1,5 @@
-// a2.0.0 
 
+let solVersion = 'a2.0.1';
 
 
 // State

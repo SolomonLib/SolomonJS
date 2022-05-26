@@ -47,7 +47,9 @@ let comment = (t, com) => {
 }
 
 //Simple enough generic element generator to make generic addins universal
-let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
+let $g = (target, type, argument, identity, identity2, alt, s1, s2, s3) => {
+    console.log(identity.startsWith('#'));
+
     let newEl = gen(type);
     if (type === "form") {
         if (s1 !== undefined) {
@@ -75,29 +77,47 @@ let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
         newEl.src = alt;
     };
     if (type === "img") {
-        newEl.src = arg;
+        newEl.src = argument;
     };
     if (type === "a") {
         newEl.href = alt;
-        newEl.textContent = arg;
+        newEl.textContent = argument;
     };
     if (type === "p" || "h1" || "h2" || "h3" || "h4" || "h5") {
-        newEl.textContent = arg;
+        newEl.textContent = argument;
     };
     if (type === "button") {
         newEl.onclick = alt;
     };
-    if (id) {
-        newEl.id = id;
-    };
-    if (cname) {
-        newEl.className = cname
-    };
+   
+    if(identity != undefined || identity != ''){
+        if(identity.toString().startsWith('.')){
+            newEl.className = identity.substring(1);
+        } if(identity.toString().startsWith('#')){
+            newEl.id = identity.substring(1);
+        }
+    } else {
+        
+    }
+    
+    
+    if (identity2 != undefined || identity2 != '') {
+        if(identity2.startsWith('.')){
+            newEl.className = identity2.toString().substring(1);
+        } if(identity2.startsWith('#')){
+            newEl.id = identity2.toString().substring(1);
+        }
+    } else {
+        
+    }
+
     if (alt && type === "img") {
         newEl.alt = alt;
     };
     target.appendChild(newEl);
-};
+}
+
+
 // $g calls the function, target sets where the new element will live, type sets what it is, value is the
 // Source for images, text for text elements, id and class are obvious, alt is only used for images and links.
 // $g(target, typeOf, value, id, class, alt)
@@ -105,94 +125,99 @@ let $g = (target, type, arg, id, cname, alt, s1, s2, s3) => {
 
 
 //Generic DOM node generators
-let $img = (target, src, alt, cname, id) => {
-    $g(target, "img", src, id, cname, alt);
+// let $img = (target, src, alt, cname, id) => {
+//     $g(target, "img", src, id, cname, alt);
+// };
+
+
+let $img = (t, src, identity, alt, identity2) => {
+    $g(t, "img", src, identity, identity2, alt);
+}
+
+let $p = (t, c, identity, identity2) => {
+    $g(t, "p", c, identity, identity2);
 };
 
-let $p = (t, c, cn, id) => {
-    $g(t, "p", c, id, cn);
+let $h = (n, t, c, identity, identity2) => {
+    $g(t, "h" + n, c, identity, identity2);
 };
 
-let $h = (n, t, c, cn, id) => {
-    $g(t, "h" + n, c, id, cn);
+let $d = (t, identity, identity2) => {
+    $g(t, "div", "", identity, identity2);
 };
 
-let $d = (t, cn, id) => {
-    $g(t, "div", "", id, cn);
+let $hr = (t, identity, identity2) => {
+    $g(t, "hr", "", identity, identity2);
 };
 
-let $hr = (t, cn, id) => {
-    $g(t, "hr", "", id, cn);
+let $nav = (t, identity, identity2) => {
+    $g(t, "nav", "", identity, identity2);
 };
 
-let $nav = (t, cn, id) => {
-    $g(t, "nav", "", id, cn);
-};
-
-let $na = (t, c, ln, cn, id) => {
-    $g(t, "a", c, id, cn, ln);
+let $na = (t, c, ln, identity, identity2) => {
+    $g(t, "a", c, identity,identity2,ln);
 };
 // NOTE: A and NA are functionally identical but kept for readability.
-let $a = (t, c, ln, cn, id) => {
-    $g(t, "a", c, id, cn, ln);
+let $a = (t, c, ln, identity, identity2) => {
+    $g(t, "a", c, identity, identity2, ln);
 };
 
-let $sel = (t, cn, id) => {
-    $g(t, "select", "", id, cn);
+let $sel = (t, identity, identity2) => {
+    $g(t, "select", "", identity, identity2);
 }
 
-let $opt = (t, c, cn, id) => {
-    $g(t, "option", c, id, cn);
+let $opt = (t, c, identity, identity2) => {
+    $g(t, "option", c, identity, identity2);
 }
 
-let $l = (type, t, c, cn, id) => {
+let $l = (type, t, c, identity, identity2) => {
     if (type === "ul" || type === "ol") {
-        $g(t, type, c, id, cn);
+        $g(t, type, c, identity, identity2);
     } else {
         $h(1, body, "$l error: Type is improperly configured.");
     }
 }
 
-let $li = (t, c, cn, id) => {
-    $g(t, "li", c, id, cn);
+let $li = (t, c, identity, identity2) => {
+    $g(t, "li", c, identity, identity2);
 }
 
-let $script = (t, c, cn, id, src) => {
-    $g(t, "script", c, id, cn, src);
+let $script = (t, c, identity, identity2, src) => {
+    $g(t, "script", c, identity, identity2, src);
 } // src and content are technically optional, however not using one is... perhaps a tad pointless.
 
-let $form = (t, cn, id, action, method, name) => {
-    $g(t, "form", "", id, cn, "", action, method, name);
+let $form = (t, identity, identity2, action, method, name) => {
+    $g(t, "form", "", identity, identity2, "", action, method, name);
 }
 
-let $input = (t, c, cn, id, type, name, label, isEnabled) => {
-    $p(t, label, cn + 'label', id + 'label');
-    $g(t, "input", c, id, cn, "", type, name, isEnabled);
+let $input = (t, c, identity, identity2, type, name, label, isEnabled) => {
+    $p(t, label, identity + 'label', identity2 + 'label');
+    $g(t, "input", c, identity, identity2, "", type, name, isEnabled);
 }
 
-let $b = (t, c, oc, cn, id) => {
-    $g(t, "button", c, id, cn, oc);
+let $b = (t, c, oc, identity, identity2) => {
+    $g(t, "button", c, identity, identity2, oc);
 };
 
-let $area = (t, c, cn, id, label) => {
-    $p(t, label, cn + 'label', id + 'label');
-    $g(t, "textarea", c, id, cn, "");
+let $area = (t, c, identity, identity2, label) => {
+    $p(t, label, identity + 'label', identity2 + 'label');
+    $g(t, "textarea", c, identity, identity2, "");
 }
 
-let $abbr = (t, c, cn, id) => {
-    $g(t, "abbr", c, id, cn);
+let $abbr = (t, c, identity, identity2) => {
+    $g(t, "abbr", c, identity, identity2);
 }
 
-let $acr = (t, c, cn, id) => {
-    $g(t, "acronym", c, id, cn);
+let $acr = (t, c, identity, identity2) => {
+    $g(t, "acronym", c, identity, identity2);
 }
 
-let $adr = (t, c, cn, id) => {
-    $g(t, "address", c, id, cn);
+let $adr = (t, c, identity, identity2) => {
+    $g(t, "address", c, identity, identity2);
 }
 
-let $article = (t, c, cn, id) => {
-    $g(t, "article", c, id, cn);
+let $article = (t, c, identity, identity2) => {
+    $g(t, "article", c, identity, identity2);
 }
 
 
@@ -234,8 +259,12 @@ var prevPage = '';
 //Takes the input data (a function name in string form), clears the page, runs the render function, then changes window location var
 function router(inp) {
     // A little hacky. Checks if header exists, if it does it will render, otherwise it moves on.
-    if(typeof header() != undefined){
-        header();
+    try {
+        if(typeof header() != undefined){
+            header();
+        }
+    } catch {
+
     }
     nhash = window.location.hash;
     prevPage = nhash.substring(1);
@@ -248,9 +277,11 @@ function router(inp) {
 
     }
     // Same as header
-    if(typeof footer() != undefined){
-        footer();
-    }
+    try {
+        if(typeof footer() != undefined){
+            footer();
+        }
+    } catch {}
 
 }
 

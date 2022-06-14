@@ -31,25 +31,28 @@ let pages = pullID('pages');
 let scripts = pullID('scripts');
 //Grabs the root for future use
 
-let add = (type, func, source) => {
-    if(type == 'script'){
-        $script(scripts,router(func), '', '', source);
-    } else if (type = 'component'){
-        $script(components,'', '', '', source);
-    } else {
-        console.log('add error: Type is improperly configured.');
-    }
-}
+// let add = (type, func, source) => {
+//     if (type == 'script') {
+//         $script(scripts, router(func), '', '', source);
+//     } else if (type = 'component') {
+//         $script(components, '', '', '', source);
+//     } else {
+//         console.log('add error: Type is improperly configured.');
+//     }
+// }
+
+// let $exp = (func, dat) => {
+//     let substring = func.
+//     $script(pages,'','','','./app/pages/'+func+'-min.js')
+// }
 
 let comment = (t, com) => {
     let comment = com;
-    pullID(t).appendChild(comment); 
+    pullID(t).appendChild(comment);
 }
 
 //Simple enough generic element generator to make generic addins universal
 let $g = (target, type, argument, identity, identity2, alt, s1, s2, s3) => {
-    console.log(identity.startsWith('#'));
-
     let newEl = gen(type);
     if (type === "form") {
         if (s1 !== undefined) {
@@ -89,26 +92,33 @@ let $g = (target, type, argument, identity, identity2, alt, s1, s2, s3) => {
     if (type === "button") {
         newEl.onclick = alt;
     };
-   
-    if(identity != undefined || identity != ''){
-        if(identity.toString().startsWith('.')){
-            newEl.className = identity.substring(1);
-        } if(identity.toString().startsWith('#')){
-            newEl.id = identity.substring(1);
+
+    try {
+        if (identity != undefined || identity != '') {
+            if (identity.toString().startsWith('.')) {
+                newEl.className = identity.substring(1);
+            } else if (identity.toString().startsWith('#')) {
+                newEl.id = identity.substring(1);
+            }
+        } else {
+
         }
-    } else {
-        
+
+    } catch {
+
     }
-    
-    
-    if (identity2 != undefined || identity2 != '') {
-        if(identity2.startsWith('.')){
-            newEl.className = identity2.toString().substring(1);
-        } if(identity2.startsWith('#')){
-            newEl.id = identity2.toString().substring(1);
+
+    try {
+        if (identity2 != undefined || identity2 != '') {
+            if (identity2.toString().startsWith('.')) {
+                newEl.className = identity2.toString().substring(1);
+            } if (identity2.toString().startsWith('#')) {
+                newEl.id = identity2.toString().substring(1);
+            }
+        } else {
+
         }
-    } else {
-        
+    } catch {
     }
 
     if (alt && type === "img") {
@@ -155,7 +165,7 @@ let $nav = (t, identity, identity2) => {
 };
 
 let $na = (t, c, ln, identity, identity2) => {
-    $g(t, "a", c, identity,identity2,ln);
+    $g(t, "a", c, identity, identity2, ln);
 };
 // NOTE: A and NA are functionally identical but kept for readability.
 let $a = (t, c, ln, identity, identity2) => {
@@ -224,10 +234,10 @@ let $article = (t, c, identity, identity2) => {
 
 //Generic bulk generators
 let $header = () => {
-    $d(body, "", "header");
-    $d(pullID('header'), "", "logoHold");
-    $d(pullID('header'), "", "navHold");
-    $nav(pullID('navHold'), "", "headNav");
+    $d(body, "", "#header");
+    $d(pullID('header'), "", "#logoHold");
+    $d(pullID('header'), "", "#navHold");
+    $nav(pullID('navHold'), "", "#headNav");
 };
 
 let $foot = (content, nav, pos) => {
@@ -252,36 +262,61 @@ let $foot = (content, nav, pos) => {
 }
 // Foot generation cheatsheet: IDs[footNavContainer, footNav, footerNotice]
 
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+//  ________  ________  ___  ___  _________  _______   ________      //
+// |\   __  \|\   __  \|\  \|\  \|\___   ___\\  ___ \ |\   __  \     //
+// \ \  \|\  \ \  \|\  \ \  \\\  \|___ \  \_\ \   __/|\ \  \|\  \    //
+//  \ \   _  _\ \  \\\  \ \  \\\  \   \ \  \ \ \  \_|/_\ \   _  _\   //
+//   \ \  \\  \\ \  \\\  \ \  \\\  \   \ \  \ \ \  \_|\ \ \  \\  \|  //
+//    \ \__\\ _\\ \_______\ \_______\   \ \__\ \ \_______\ \__\\ _\  //
+//     \|__|\|__|\|_______|\|_______|    \|__|  \|_______|\|__|\|__| //
+///////////////////////////////////////////////////////////////////////
+
 let routeTick = window.setInterval(routeCheck, 100);
 var currentPage = '#home()';
 var prevPage = '';
 
+if (JSON.parse(localStorage.getItem('activePage'))) {
+    currentPage = '#' + JSON.parse(localStorage.getItem('activePage'));
+
+}
+
 //Takes the input data (a function name in string form), clears the page, runs the render function, then changes window location var
+var headerIsGen = false;
 function router(inp) {
     // A little hacky. Checks if header exists, if it does it will render, otherwise it moves on.
     try {
-        if(typeof header() != undefined){
+        if (typeof header() != undefined) {
+            if (pullID('header')) {
+                pullID('header').remove();
+            }
             header();
         }
     } catch {
-
     }
     nhash = window.location.hash;
     prevPage = nhash.substring(1);
     if (inp != undefined) {
         clear();
-        eval(inp);
         winLoc(inp);
+        eval(inp);
         currentPage = inp;
+        console.log(typeof currentPage)
+        localStorage.setItem('activePage', JSON.stringify(currentPage));
     } else {
 
     }
     // Same as header
     try {
-        if(typeof footer() != undefined){
+        if (typeof footer() != undefined) {
             footer();
         }
-    } catch {}
+    } catch { }
 
 }
 
@@ -304,7 +339,7 @@ function clear() {
 }
 
 function page() {
-    $d(body, '', 'content');
+    $d(body, '#content');
     let con = pullID('content');
     return con;
 }
@@ -315,7 +350,8 @@ function winLoc(inp) {
 
 // First Load
 let firstLoad = () => {
-    $d(body, '', 'components');
-    $d(body, '', 'pages');
-    $d(body, '', 'scripts');
+    winLoc(currentPage);
+    $d(body, '', '#components');
+    $d(body, '', '#pages');
+    $d(body, '', '#scripts');
 }; firstLoad();

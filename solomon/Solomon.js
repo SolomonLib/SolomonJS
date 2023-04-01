@@ -1,5 +1,5 @@
 
-let solVersion = 'a2.0.1';
+let solVersion = 'a2.1.1';
 
 
 // State
@@ -197,6 +197,24 @@ let $article = (t, c, cn, id) => {
 
 
 
+// Complex functionality
+let $universe = () => {
+
+    for (let i = 0; i < comp.length; i++) {
+        obj = comp[i];
+        loc = pullID('components');
+        $script(loc, '', '', '', ('./app/' + obj + '.js'));
+    }
+    for (let i = 0; i < $Page.length; i++) {
+        obj = $Page[i];
+        loc = pullID('pages');
+        $script(loc,'router("' + obj + '()")','',obj + '$pageDef', './app/pages/' + obj + '.js');
+
+    }
+}
+
+
+
 //Generic bulk generators
 let $header = () => {
     $d(body, "", "header");
@@ -233,8 +251,8 @@ var prevPage = '';
 
 //Takes the input data (a function name in string form), clears the page, runs the render function, then changes window location var
 function router(inp) {
-    // A little hacky. Checks if header exists, if it does it will render, otherwise it moves on.
-    if(typeof header() != undefined){
+    console.log(pullID('header'))
+    if(pullID('header') == null){
         header();
     }
     nhash = window.location.hash;
@@ -248,7 +266,7 @@ function router(inp) {
 
     }
     // Same as header
-    if(typeof footer() != undefined){
+    if(pullID('footer') == null){
         footer();
     }
 
@@ -256,6 +274,9 @@ function router(inp) {
 
 async function routeCheck() {
     // If win loc != current page, router current page
+    if (window.location.hash == '') {
+        router('home()')
+    }
     if (window.location.hash.substring(1) != currentPage) {
         currentPage = window.location.hash.substring(1);
         router(currentPage);
@@ -273,7 +294,10 @@ function clear() {
 }
 
 function page() {
-    $d(body, '', 'content');
+    if(pullID('contentWrapper') == null){
+        $d(body, '', 'contentWrapper');
+    }
+    $d(pullID('contentWrapper'),'','content');
     let con = pullID('content');
     return con;
 }

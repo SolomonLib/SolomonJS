@@ -252,8 +252,10 @@ var prevPage = '';
 //Takes the input data (a function name in string form), clears the page, runs the render function, then changes window location var
 function router(inp) {
     console.log(pullID('header'))
-    if(pullID('header') == null){
+    try {
         header();
+    } catch (error) {
+        
     }
     nhash = window.location.hash;
     prevPage = nhash.substring(1);
@@ -266,8 +268,11 @@ function router(inp) {
 
     }
     // Same as header
-    if(pullID('footer') == null){
+    try {
         footer();
+        
+    } catch (error) {
+        
     }
 
 }

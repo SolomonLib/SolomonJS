@@ -1,5 +1,5 @@
 
-let solVersion = 'a2.1.1';
+let solVersion = 'a2.1.5';
 
 
 // State
@@ -32,10 +32,10 @@ let scripts = pullID('scripts');
 //Grabs the root for future use
 
 let add = (type, func, source) => {
-    if(type == 'script'){
-        $script(scripts,router(func), '', '', source);
-    } else if (type = 'component'){
-        $script(components,'', '', '', source);
+    if (type == 'script') {
+        $script(scripts, router(func), '', '', source);
+    } else if (type = 'component') {
+        $script(components, '', '', '', source);
     } else {
         console.log('add error: Type is improperly configured.');
     }
@@ -43,7 +43,7 @@ let add = (type, func, source) => {
 
 let comment = (t, com) => {
     let comment = com;
-    pullID(t).appendChild(comment); 
+    pullID(t).appendChild(comment);
 }
 
 //Simple enough generic element generator to make generic addins universal
@@ -196,6 +196,28 @@ let $article = (t, c, cn, id) => {
 }
 
 
+//Ledger/registry tools
+let $components = (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+        let comp = arr[i];
+        $script(pullID('components'), '', '', '', './app/component/' + comp + '.js');
+    }
+}
+
+let $pages = (arr) => {
+    for(let i = 0; i < arr.length; i++){
+        let page = arr[i];
+        $script(pullID('pages'), '', '', '', './app/page/' + page + '.js');
+    }
+}
+
+let $scripts = (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+        let script = arr[i];
+        $script(pullID('scripts'), '', '', '', './app/' + script + '.js');
+    }
+}
+
 
 // Complex functionality
 let $universe = () => {
@@ -208,7 +230,7 @@ let $universe = () => {
     for (let i = 0; i < $Page.length; i++) {
         obj = $Page[i];
         loc = pullID('pages');
-        $script(loc,'router("' + obj + '()")','',obj + '$pageDef', './app/pages/' + obj + '.js');
+        $script(loc, 'router("' + obj + '()")', '', obj + '$pageDef', './app/pages/' + obj + '.js');
 
     }
 }
@@ -255,7 +277,7 @@ function router(inp) {
     try {
         header();
     } catch (error) {
-        
+
     }
     nhash = window.location.hash;
     prevPage = nhash.substring(1);
@@ -270,9 +292,9 @@ function router(inp) {
     // Same as header
     try {
         footer();
-        
+
     } catch (error) {
-        
+
     }
 
 }
@@ -299,10 +321,10 @@ function clear() {
 }
 
 function page() {
-    if(pullID('contentWrapper') == null){
+    if (pullID('contentWrapper') == null) {
         $d(body, '', 'contentWrapper');
     }
-    $d(pullID('contentWrapper'),'','content');
+    $d(pullID('contentWrapper'), '', 'content');
     let con = pullID('content');
     return con;
 }

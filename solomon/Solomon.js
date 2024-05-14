@@ -1,5 +1,4 @@
-
-let solVersion = 'a2.1.5';
+let solVersion = 'a2.2.0';
 
 
 // State
@@ -33,9 +32,9 @@ let scripts = pullID('scripts');
 
 let add = (type, func, source) => {
     if (type == 'script') {
-        $script(scripts, router(func), '', '', source);
+        $.script(scripts, router(func), '', '', source);
     } else if (type = 'component') {
-        $script(components, '', '', '', source);
+        $.script(components, '', '', '', source);
     } else {
         console.log('add error: Type is improperly configured.');
     }
@@ -47,13 +46,16 @@ let comment = (t, com) => {
 }
 
 
-let $ = [
+let componentList = []
+
+////////////////////////////////////////////////////kkkkkkkkkkkkkkkkkkkkkkkkkkkklllllllllllllllllllllllll///////
+let $ = {
     //Simple enough generic element generator to make generic addins universal
     // $.generate calls the function, target sets where the new element will live, type sets what it is, value is the
     // Source for images, text for text elements, id and class are obvious, alt is only used for images and links.
     // $.generate(target, typeOf, value, id, class, alt)
     // alt in links is instead the link target than an alt text.
-    generate = (target, type, arg, id, cname, alt, s1, s2, s3) => {
+    generate: function (target, type, arg, id, cname, alt, s1, s2, s3) {
         let newEl = gen(type);
         if (type === "form") {
             if (s1 !== undefined) {
@@ -109,47 +111,47 @@ let $ = [
     //// Generic DOM node generators ////////////////////////////////////
     /////////////////////////////////////////////////////////////////////
 
-    img = (target, src, alt, cname, id) => {
+    img: function (target, src, alt, cname, id) {
         $.generate(target, "img", src, id, cname, alt);
     },
 
-    p = (t, c, cn, id) => {
+    p: function (t, c, cn, id) {
         $.generate(t, "p", c, id, cn);
     },
 
-    h = (n, t, c, cn, id) => {
+    h: function (n, t, c, cn, id) {
         $.generate(t, "h" + n, c, id, cn);
     },
 
-    d = (t, cn, id) => {
+    d: function (t, cn, id) {
         $.generate(t, "div", "", id, cn);
     },
 
-    hr = (t, cn, id) => {
+    hr: function (t, cn, id) {
         $.generate(t, "hr", "", id, cn);
     },
 
-    nav = (t, cn, id) => {
+    nav: function (t, cn, id) {
         $.generate(t, "nav", "", id, cn);
     },
 
-    na = (t, c, ln, cn, id) => {
+    na: function (t, c, ln, cn, id) {
         $.generate(t, "a", c, id, cn, ln);
     },
     // NOTE: A and NA are functionally identical but kept for readability.
-    a = (t, c, ln, cn, id) => {
+    a: function (t, c, ln, cn, id) {
         $.generate(t, "a", c, id, cn, ln);
     },
 
-    sel = (t, cn, id) => {
+    sel: function (t, cn, id) {
         $.generate(t, "select", "", id, cn);
     },
 
-    opt = (t, c, cn, id) => {
+    opt: function (t, c, cn, id) {
         $.generate(t, "option", c, id, cn);
     },
 
-    l = (type, t, c, cn, id) => {
+    l: function (type, t, c, cn, id) {
         if (type === "ul" || type === "ol") {
             $.generate(t, type, c, id, cn);
         } else {
@@ -157,45 +159,45 @@ let $ = [
         }
     },
 
-    li = (t, c, cn, id) => {
+    li: function (t, c, cn, id) {
         $.generate(t, "li", c, id, cn);
     },
 
-    script = (t, c, cn, id, src) => {
+    script: function (t, c, cn, id, src) {
         $.generate(t, "script", c, id, cn, src);
     }, // src and content are technically optional, however not using one is... perhaps a tad pointless.
 
-    form = (t, cn, id, action, method, name) => {
+    form: function (t, cn, id, action, method, name) {
         $.generate(t, "form", "", id, cn, "", action, method, name);
     },
 
-    input = (t, c, cn, id, type, name, label, isEnabled) => {
-        $p(t, label, cn + 'label', id + 'label');
+    input: function (t, c, cn, id, type, name, label, isEnabled) {
+        $.p(t, label, cn + 'label', id + 'label');
         $.generate(t, "input", c, id, cn, "", type, name, isEnabled);
     },
 
-    b = (t, c, oc, cn, id) => {
+    b: function (t, c, oc, cn, id) {
         $.generate(t, "button", c, id, cn, oc);
     },
 
-    area = (t, c, cn, id, label) => {
-        $p(t, label, cn + 'label', id + 'label');
+    area: function (t, c, cn, id, label) {
+        $.p(t, label, cn + 'label', id + 'label');
         $.generate(t, "textarea", c, id, cn, "");
     },
 
-    abbr = (t, c, cn, id) => {
+    abbr: function (t, c, cn, id) {
         $.generate(t, "abbr", c, id, cn);
     },
 
-    acr = (t, c, cn, id) => {
+    acr: function (t, c, cn, id) {
         $.generate(t, "acronym", c, id, cn);
     },
 
-    adr = (t, c, cn, id) => {
+    adr: function (t, c, cn, id) {
         $.generate(t, "address", c, id, cn);
     },
 
-    article = (t, c, cn, id) => {
+    article: function (t, c, cn, id) {
         $.generate(t, "article", c, id, cn);
     },
 
@@ -204,49 +206,51 @@ let $ = [
     //// Elements that hgandle ledger/registry functions //////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
 
-    register = [
-        components = (arr) => {
+    register: {
+        components: function (arr) {
             for (let i = 0; i < arr.length; i++) {
                 let comp = arr[i];
-                $script(pullID('components'), '', '', '', './app/component/' + comp + '.js');
+                $.script(pullID('components'), '', '', '', './app/component/' + comp + '.js');
+                componentList.push(comp);
+                console.log(componentList);
             }
         },
 
-        pages = (arr) => {
+        pages: function (arr) {
             for (let i = 0; i < arr.length; i++) {
                 let page = arr[i];
-                $script(pullID('pages'), '', '', '', './app/page/' + page + '.js');
+                $.script(pullID('pages'), '', '', '', './app/page/' + page + '.js');
             }
         },
 
-        scripts = (arr) => {
+        scripts: function (arr) {
             for (let i = 0; i < arr.length; i++) {
                 let script = arr[i];
-                $script(pullID('scripts'), '', '', '', './app/' + script + '.js');
+                $.script(pullID('scripts'), '', '', '', './app/' + script + '.js');
             }
         }
-    ],
+    },
 
     //////////////////////////////////////////////////////////////////////////////////
     //// Elements that handle generation of generic components //////////////////////
     ////////////////////////////////////////////////////////////////////////////////
 
-    component = [
-        header = () => {
-            $d(body, "", "header");
-            $d(pullID('header'), "", "logoHold");
-            $d(pullID('header'), "", "navHold");
-            $nav(pullID('navHold'), "", "headNav");
+    component: {
+        header: function () {
+            $.d(body, "", "header");
+            $.d(pullID('header'), "", "logoHold");
+            $.d(pullID('header'), "", "navHold");
+            $.nav(pullID('navHold'), "", "headNav");
         },
 
-        foot = (content, nav, pos) => {
+        foot: function (content, nav, pos) {
             function navDiv() {
-                return $d(pullID('footer'), "", "footNavContainer"), $nav(pullID('footNavContainer', "", "footNav"));
+                return $.d(pullID('footer'), "", "footNavContainer"), $nav(pullID('footNavContainer', "", "footNav"));
             };
             function noticeDiv() {
-                return $d(pullID('footer'), "", "noticeDiv"), $p(pullID('noticeDiv'), content, "", "footerNotice");
+                return $.d(pullID('footer'), "", "noticeDiv"), $.p(pullID('noticeDiv'), content, "", "footerNotice");
             };
-            $d(body, "", "footer");
+            $.d(body, "", "footer");
             if (nav === true) {
                 if (pos === "l") {
                     navDiv();
@@ -256,32 +260,32 @@ let $ = [
                     navDiv();
                 } else { $h(1, body, "Footer improperly configured, see console"); console.log('Err: Position parameter not set') }
             } else {
-                $p(pullID('footer'), content, "", "footerNotice");
+                $.p(pullID('footer'), content, "", "footerNotice");
             }
         }
         // Foot generation cheatsheet: IDs[footNavContainer, footNav, footerNotice]
-    ]
+    }
 
-]
+}
 
 
 
 
 // Complex functionality that is a bit outdated but yet to be formally removed
-let $universe = () => {
+// let $universe = () => {
 
-    for (let i = 0; i < comp.length; i++) {
-        obj = comp[i];
-        loc = pullID('components');
-        $script(loc, '', '', '', ('./app/' + obj + '.js'));
-    }
-    for (let i = 0; i < $Page.length; i++) {
-        obj = $Page[i];
-        loc = pullID('pages');
-        $script(loc, 'router("' + obj + '()")', '', obj + '$pageDef', './app/pages/' + obj + '.js');
+//     for (let i = 0; i < comp.length; i++) {
+//         obj = comp[i];
+//         loc = pullID('components');
+//         $script(loc, '', '', '', ('./app/' + obj + '.js'));
+//     }
+//     for (let i = 0; i < $Page.length; i++) {
+//         obj = $Page[i];
+//         loc = pullID('pages');
+//         $script(loc, 'router("' + obj + '()")', '', obj + '$pageDef', './app/pages/' + obj + '.js');
 
-    }
-}
+//     }
+// }
 
 
 
@@ -343,13 +347,14 @@ function clear() {
             pullID('auxCounter').remove(); //Fixes a weird bug
         }
     }
+
 }
 
 function page() {
     if (pullID('contentWrapper') == null) {
-        $d(body, '', 'contentWrapper');
+        $.d(body, '', 'contentWrapper');
     }
-    $d(pullID('contentWrapper'), '', 'content');
+    $.d(pullID('contentWrapper'), '', 'content');
     let con = pullID('content');
     return con;
 }
@@ -360,7 +365,7 @@ function winLoc(inp) {
 
 // First Load
 let firstLoad = () => {
-    $d(body, '', 'components');
-    $d(body, '', 'pages');
-    $d(body, '', 'scripts');
+    $.d(body, '', 'components');
+    $.d(body, '', 'pages');
+    $.d(body, '', 'scripts');
 }; firstLoad();
